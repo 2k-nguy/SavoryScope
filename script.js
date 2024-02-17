@@ -2,26 +2,53 @@
 let map;
 
 async function initMap() {
-  // The location of Uluru
-  const position = { lat: -25.344, lng: 131.031 };
   // Request needed libraries.
   //@ts-ignore
   const { Map } = await google.maps.importLibrary("maps");
   const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
-  // The map, centered at Uluru
+  // The map, initially centered at a default location
   map = new Map(document.getElementById("map"), {
     zoom: 4,
-    center: position,
+    center: { lat: -25.344, lng: 131.031 }, // Default location
     mapId: "DEMO_MAP_ID",
   });
 
-  // The marker, positioned at Uluru
-  const marker = new AdvancedMarkerElement({
-    map: map,
-    position: position,
-    title: "Uluru",
-  });
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+
+        // The map, centered at current location
+        map.setCenter(pos);
+
+        // The marker, positioned at current location
+        const marker = new AdvancedMarkerElement({
+          map: map,
+          position: pos,
+          title: "Current location",
+        });
+      },
+      () => {
+        handleLocationError(true);
+      }
+    );
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false);
+  }
+}
+
+function handleLocationError(browserHasGeolocation) {
+  alert(
+    browserHasGeolocation
+      ? "Error: The Geolocation service failed."
+      : "Error: Your browser doesn't support geolocation."
+  );
 }
 
 initMap();
