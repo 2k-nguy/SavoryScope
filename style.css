@@ -2,21 +2,38 @@
  * Always set the map height explicitly to define the size of the div element
  * that contains the map. 
  */
- #map {
-    height: 100%;
-  }
   
   /* 
    * Optional: Makes the sample page fill the window. 
    */
-  html,body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+   body {
+    font-family: 'Lexend', sans-serif;
+  }
+
+  .logo {
+    margin-left: 40%;
+    width:1000px;  /* or any size you want */
+    height: auto;  /* keep aspect ratio */
   }
 
   #map{
-    width: 100%;
-    height: 400px;
+    width: 40%;
+    height: 40%;
     background-color: aliceblue;
+    position: absolute;
+    top: 50%;
+    left: 5%;
   }
+
+  .input-fields input, .input-fields select {
+    font-family: 'Lexend', sans-serif;
+  }
+
+  #background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}

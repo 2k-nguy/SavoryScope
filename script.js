@@ -1,6 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
   initAutocomplete();
+  initMap();
+
 });
+
+// Your other JavaScript code here
 
 function initAutocomplete() {
   const input = document.getElementById('address');
@@ -58,5 +62,14 @@ function handleLocationError(browserHasGeolocation, pos) {
   infoWindow.open(map);
 }
 
+var typingEffect = new Typed(".typedText",{
+  strings : ["Designer","Youtuber","Developer"],
+  loop : true,
+  typeSpeed : 100, 
+  backSpeed : 80,
+  backDelay : 2000
+})
+
 initMap();
 initAutocomplete();
+
