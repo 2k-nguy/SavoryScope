@@ -22,10 +22,16 @@
                     fields: ['name', 'geometry'],
                 };
 
+                console.log('Sending request:', request);
+
                 service.textSearch(request, function(results, status) {
+                    console.log('Received response:', status, results);
+
                     if (status === google.maps.places.PlacesServiceStatus.OK) {
                         // Redirect to the first result
-                        window.location.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(results[0].name)}`;
+                        var url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(results[0].name)}`;
+                        console.log('Redirecting to:', url);
+                        window.location.href = url;
                     }
                 });
             };
@@ -55,6 +61,7 @@
         </div>
     </form>
     <div id="results"></div>
+    <div id="map" style="height:0; width:0;"></div>
     <script src="script.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeZddSVem_NSc_z70wJDwrC_SsazrDW6U&libraries=places&callback=initMap"></script>
 </body>
