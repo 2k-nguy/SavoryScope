@@ -9,45 +9,63 @@
 </head>
 <body>
 
-    <div id="vanta"></div>
+    
     
     <h1 id = "slogan">Your Personal Restaurant Guide</h1>
 
     <img src="assets/Logo.png" class="logo">
 
     <!--The div element for the map -->
-    <!-- <div id="map"></div> -->
+    <div id="map"></div>
 
-    <form id="searchForm">
-        <!-- User input fields -->
-        <div class="input-fields">
-            <div class="column">
-                <input id="address" type="text" placeholder="Enter an address">
-            </div>
-            <div class="column">
-                $<input id="min-budget" type="number" placeholder="Minimum budget">
-            </div>
-            <div class="column">
-                $<input id="max-budget" type="number" placeholder="Maximum budget">
-            </div>
-            <div class="column">
-                <!-- Input Cuisine -->
-                <input id="cuisine" type = "text" placeholder="Cuisine of choice">
-                    <!-- Your options here -->
-                </select>
-            </div>
-            <button type="submit">Search</button>
+    <!-- User input fields -->
+    <div class="input-fields">
+        <div class="column">
+            <input id="address" type="text" placeholder="Enter an address">
         </div>
-    </form>
+        <div class="column">
+            $<input id="min-budget" type="number" placeholder="Minimum budget">
+        </div>
+        <div class="column">
+            $<input id="max-budget" type="number" placeholder="Maximum budget">
+        </div>
+        <div class="column">
+          <!-- Input Cuisine -->
+            <select id="cuisine">
+                <option value="">Select a cuisine</option>
+                <option value="italian">Italian</option>
+                <option value="chinese">Chinese</option>
+                <option value="mexican">Mexican</option>
+                <option value="american">American</option>
+                <option value="japanese">Japanese</option>
+                <option value="indian">Indian</option>
+                <option value="french">French</option>
+                <option value="thai">Thai</option>
+                <option value="mediterranean">Mediterranean</option>
+                <option value="spanish">Spanish</option>
+                <option value="greek">Greek</option>
+                <option value="korean">Korean</option>
+                <option value="vietnamese">Vietnamese</option>
+                <option value="middle eastern">Middle Eastern</option>
+                <option value="brazilian">Brazilian</option>
+                <option value="cajun">Cajun/Creole</option>
+                <option value="german">German</option>
+                <option value="british">Irish</option>
+                <option value="ethiopian">Ethiopian</option>
+                <option value="caribbean">Caribbean</option>
+            </select>
+        <button id="search">Search</button>
+      </div>
+
     <!-- A div to display the search results -->
     <div id="results"></div>
 
     
 
     <!-- prettier-ignore -->
-    <script src="three.r134.min.js"></script>
-    <script src="https://www.vantajs.com/dist/vanta.clouds.min.js"></script>
     <script src="script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeZddSVem_NSc_z70wJDwrC_SsazrDW6U&libraries=places&callback=initMap" async defer></script>
+
 
 </body>
 </html>

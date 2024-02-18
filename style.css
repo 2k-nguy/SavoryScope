@@ -6,25 +6,13 @@
   /* 
    * Optional: Makes the sample page fill the window. 
    */
-  body {
+   body {
     font-family: 'Lexend', sans-serif;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
   }
-
-  #vanta {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-}
 
   .logo {
     margin-left: 40%;
-    width:500px;  /* or any size you want */
+    width:1000px;  /* or any size you want */
     height: auto;  /* keep aspect ratio */
   }
 
@@ -49,4 +37,3 @@
     height: 100%;
     z-index: -1;
 }
-
