@@ -1,26 +1,43 @@
 document.addEventListener("DOMContentLoaded", function() {
   initAutocomplete();
   initMap();
-
 });
-
-// Your other JavaScript code here
 
 function initAutocomplete() {
   const input = document.getElementById('address');
   const autocomplete = new google.maps.places.Autocomplete(input);
 }
 
-// Initialize and add the map
 let map;
 
 function initMap() {
-  const map = new google.maps.Map(document.getElementById("map"), {
+  map = new google.maps.Map(document.getElementById("map"), {
     zoom: 4,
     center: { lat: -25.344, lng: 131.031 }, // Default location
   });
 
-  // Try HTML5 geolocation.
+  const marker = new google.maps.Marker({
+    position: { lat: -25.344, lng: 131.031 },
+    map: map,
+    draggable: true
+  });
+
+  const geocoder = new google.maps.Geocoder;
+
+  marker.addListener('dragend', function() {
+    geocoder.geocode({'location': marker.getPosition()}, function(results, status) {
+      if (status === 'OK') {
+        if (results[0]) {
+          document.getElementById('address').value = results[0].formatted_address;
+        } else {
+          window.alert('No results found');
+        }
+      } else {
+        window.alert('Geocoder failed due to: ' + status);
+      }
+    });
+  });
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -29,28 +46,16 @@ function initMap() {
           lng: position.coords.longitude,
         };
 
-        // The map, centered at current location
         map.setCenter(pos);
-
-        // The marker, positioned at current location
-        const marker = new google.maps.Marker({
-          map: map,
-          position: pos,
-          title: "Current location",
-        });
+        marker.setPosition(pos);
       },
       () => {
         handleLocationError(true, map.getCenter());
       }
     );
   } else {
-    // Browser doesn't support Geolocation
     handleLocationError(false, map.getCenter());
   }
-
-  // Initialize Autocomplete
-  const input = document.getElementById('address');
-  const autocomplete = new google.maps.places.Autocomplete(input);
 }
 
 function handleLocationError(browserHasGeolocation, pos) {
@@ -62,14 +67,26 @@ function handleLocationError(browserHasGeolocation, pos) {
   infoWindow.open(map);
 }
 
-var typingEffect = new Typed(".typedText",{
-  strings : ["Designer","Youtuber","Developer"],
-  loop : true,
-  typeSpeed : 100, 
-  backSpeed : 80,
-  backDelay : 2000
-})
+window.onload = function() {
+  var service = new google.maps.places.PlacesService(map);
 
-initMap();
-initAutocomplete();
+  document.getElementById('searchForm').onsubmit = function(e) {
+      e.preventDefault();
 
+      var address = document.getElementById('address').value;
+      var minBudget = document.getElementById('min-budget').value;
+      var maxBudget = document.getElementById('max-budget').value;
+      var cuisine = document.getElementById('cuisine').value;
+
+      var request = {
+          query: `${cuisine} Restaurants near ${address} Price between ${minBudget}-${maxBudget}`,
+          fields: ['name', 'geometry'],
+      };
+
+      service.textSearch(request, function(results, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+              window.location.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(results[0].name)}`;
+          }
+      });
+  };
+};

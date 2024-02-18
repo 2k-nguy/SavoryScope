@@ -4,68 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SavoryScript</title>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'));
+            var service = new google.maps.places.PlacesService(map);
+
+            document.getElementById('searchForm').onsubmit = function(e) {
+                e.preventDefault();
+
+                var address = document.getElementById('address').value;
+                var minBudget = document.getElementById('min-budget').value;
+                var maxBudget = document.getElementById('max-budget').value;
+                var cuisine = document.getElementById('cuisine').value;
+
+                var request = {
+                    query: `${cuisine} Restaurants near ${address} Price between ${minBudget}-${maxBudget}`,
+                    fields: ['name', 'geometry'],
+                };
+
+                service.textSearch(request, function(results, status) {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        // Redirect to the first result
+                        window.location.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(results[0].name)}`;
+                    }
+                });
+            };
+        };
+    </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    
-    
     <h1 id = "slogan">Your Personal Restaurant Guide</h1>
-
     <img src="assets/Logo.png" class="logo">
-
-    <!--The div element for the map -->
-    <div id="map"></div>
-
-    <!-- User input fields -->
-    <div class="input-fields">
-        <div class="column">
-            <input id="address" type="text" placeholder="Enter an address">
+    <form id="searchForm">
+        <div class="input-fields">
+            <div class="column">
+                <input id="address" type="text" placeholder="Enter an address">
+            </div>
+            <div class="column">
+                $<input id="min-budget" type="number" placeholder="Minimum budget">
+            </div>
+            <div class="column">
+                $<input id="max-budget" type="number" placeholder="Maximum budget">
+            </div>
+            <div class="column">
+                <input id="cuisine" type = "text" placeholder="Cuisine of choice">
+            </div>
+            <button type="submit">Search</button>
         </div>
-        <div class="column">
-            $<input id="min-budget" type="number" placeholder="Minimum budget">
-        </div>
-        <div class="column">
-            $<input id="max-budget" type="number" placeholder="Maximum budget">
-        </div>
-        <div class="column">
-          <!-- Input Cuisine -->
-            <select id="cuisine">
-                <option value="">Select a cuisine</option>
-                <option value="italian">Italian</option>
-                <option value="chinese">Chinese</option>
-                <option value="mexican">Mexican</option>
-                <option value="american">American</option>
-                <option value="japanese">Japanese</option>
-                <option value="indian">Indian</option>
-                <option value="french">French</option>
-                <option value="thai">Thai</option>
-                <option value="mediterranean">Mediterranean</option>
-                <option value="spanish">Spanish</option>
-                <option value="greek">Greek</option>
-                <option value="korean">Korean</option>
-                <option value="vietnamese">Vietnamese</option>
-                <option value="middle eastern">Middle Eastern</option>
-                <option value="brazilian">Brazilian</option>
-                <option value="cajun">Cajun/Creole</option>
-                <option value="german">German</option>
-                <option value="british">Irish</option>
-                <option value="ethiopian">Ethiopian</option>
-                <option value="caribbean">Caribbean</option>
-            </select>
-        <button id="search">Search</button>
-      </div>
-
-    <!-- A div to display the search results -->
+    </form>
     <div id="results"></div>
-
-    
-
-    <!-- prettier-ignore -->
     <script src="script.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeZddSVem_NSc_z70wJDwrC_SsazrDW6U&libraries=places&callback=initMap" async defer></script>
-
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeZddSVem_NSc_z70wJDwrC_SsazrDW6U&libraries=places&callback=initMap"></script>
 </body>
 </html>
